@@ -1,0 +1,11 @@
+{
+    "translations": {
+        "de": {
+            "Message": "Nachricht",
+            "State": "Status",
+            "Recommended Value": "Empfohlener Wert",
+            "Unit": "Einheit",
+            "Room": "Raum"
+        }
+    }
+}

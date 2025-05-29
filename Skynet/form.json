@@ -1,0 +1,57 @@
+{
+    "elements":
+    [
+        {"type": "Label", "label": "Mistral API Settings"},
+        {"type": "ValidationTextBox", "name": "url", "caption": "Url"},
+        {"type": "PasswordTextBox", "name": "mistral_api_key", "caption": "Mistral API-Key"},
+        {"type": "Select", "name": "mistral_model", "caption": "Mistral Model", 
+        "options": [
+            {"caption": "Mistral Large", "value": "mistral-large-latest"},
+            {"caption": "Mistral Medium", "value": "mistral-medium-latest"},
+            {"caption": "Mistral Small", "value": "mistral-small-latest"}
+            ]},
+        {"type": "Select", "name": "message_language", "caption": "Message language", 
+        "options": [
+            {"caption": "English", "value": "english"},
+            {"caption": "German", "value": "german"},
+            {"caption": "Italian", "value": "italian"},
+            {"caption": "French", "value": "french"}
+            ]},
+        {"type": "List","name": "devices", "caption": "Devices", "add": true, "delet": true, "rowCount": 10, 
+        "columns": [{
+            "caption": "Sensor ID",
+            "name": "SensorID", 
+            "width": "100px",
+            "add": 0,
+            "edit": {
+                "type": "SelectVariable",
+                "caption": "VariableID Sensor"
+            }
+        }, {
+            "caption": "Room",
+            "name": "Room",
+            "width": "auto",
+            "add": "",
+            "edit": {
+                "type": "ValidationTextBox", 
+                "caption": "Room"
+            }
+        }, {
+            "caption": "Sensor type",
+            "name": "SensorType",
+            "width": "100px",
+            "add": "Lux",
+            "edit": {
+                "type": "Select",
+                "caption": "Sensor type",
+                "options": [
+                    { "caption": "Lux", "value": "Lux" },
+                    { "caption": "Temperature inside", "value": "°C"},
+                    { "caption": "Humidity", "value": "%"},
+                    { "caption": "Wind", "value": "km/h"}
+                ]
+            }
+        }] },
+        {"type": "NumberSpinner", "name": "triggerdifference", "caption": "Trigger difference", "suffix": "%"}
+    ]
+}

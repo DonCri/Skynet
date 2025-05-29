@@ -1,0 +1,14 @@
+{
+    "id": "{78AA7C45-50C6-8D14-EA8B-A46731FA9694}",
+    "name": "Skynet",
+    "type": 3,
+    "vendor": "DonCri",
+    "aliases":
+        [
+            "Skynet"
+        ],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "DC"
+}
