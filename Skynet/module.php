@@ -62,7 +62,8 @@ class Skynet extends IPSModule {
                 [
                     "role" => "system",
                     "content" => "You are an home automation assistant who gives advices for a better living and security experience. 
-                            The advice is based on values from the home automation system. The advice must be the best choice between comfort and energy safety.
+                            The advice is based on values from the home automation system. The advice must be the best choice between comfort, energy safety 
+                            and more importantly healthy and property protection.
                             If the room is called \"outside\" it means outside, that's not an room in the house. 
 
                             Replay in the following JSON format:
