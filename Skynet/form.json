@@ -46,7 +46,7 @@
                 "caption": "Sensor type",
                 "options": [
                     { "caption": "Lux", "value": "Lux" },
-                    { "caption": "Temperature inside", "value": "°C"},
+                    { "caption": "Temperature", "value": "°C"},
                     { "caption": "Humidity", "value": "%"},
                     { "caption": "Wind", "value": "km/h"}
                 ]

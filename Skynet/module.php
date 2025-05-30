@@ -118,11 +118,7 @@ class Skynet extends IPSModule {
             $content = trim($responseJSON['choices'][0]['message']['content'], '`');
             $jsonSTRING = str_replace(['```', 'json'], '', $content);
             $contentJSON = json_decode($jsonSTRING, true);
-            $skynetStat = $this->GetValue('SKYNET_STATE');
-
-            if($skynetStat) {
-                // define here the device you would change automaticaly
-            }
+            
             SetValue($this->GetIDForIdent('MESSAGE'), $contentJSON['advice']['text']);
             SetValue($this->GetIDForIdent('RECOMMENDED_VALUE'), $contentJSON['advice']['recommendedValue']);
             SetValue($this->GetIDForIdent('UNIT'), $contentJSON['advice']['unit']);;
@@ -159,8 +155,11 @@ class Skynet extends IPSModule {
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
         $deviceListString = $this->ReadPropertyString('devices');
         $deviceListJSON = json_decode($deviceListString, true);	
-        
-        foreach($deviceListJSON as $content) {
+
+        $skynetStat = $this->GetValue('SKYNET_STATE');
+
+        if($skynetStat) {
+            foreach($deviceListJSON as $content) {
             if($SenderID == $content['SensorID']) {
                 if($Data[1] == 1) {
                     $oldValue = $Data[2];
@@ -170,6 +169,7 @@ class Skynet extends IPSModule {
                     if($valueDifferentInPercent >= $this->ReadPropertyInteger('triggerdifference')) {
                         IPS_LogMessage('Skynet', 'different: ' . $valueDifferentInPercent);
                         $this->SendRequest($content['Room'], GetValue($SenderID), $content['SensorType']);
+                        }
                     }
                 }
             }
