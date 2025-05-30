@@ -173,7 +173,7 @@ class Skynet extends IPSModule {
                         $valueDifferentInPercent = ($valueDifferent / $oldValue) * 100;
                     }
                     if($valueDifferentInPercent >= $this->ReadPropertyInteger('triggerdifference')) {
-                        IPS_LogMessage("Skynet", "Message from SenderID ".$SenderID." with Message ".$Message."\r\n Data: ".print_r($Data, true));
+                        IPS_LogMessage("Skynet", "Message from SenderID ".$SenderID." - ".IPS_GetName($SenderID) ." with Message ".$Message."\r\n Data: ".print_r($Data, true));
                         IPS_LogMessage('Skynet', 'different: ' . $valueDifferentInPercent);
                         $this->SendRequest($content['Room'], GetValue($SenderID), $content['SensorType']);
                         }
