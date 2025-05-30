@@ -1,6 +1,7 @@
 # Skynet - Mistral AI für Symcon
 
 * **Letztes Update:** 30.05.2025
+
 ---
 * Mistral AI Integration um Empfehlungen wie z.B. optimale Lichtverhältnisse in einem Raum zu erlangen.
 * In der Variable "Message" die Empfehlung in natürlcher Sprache notiert.
