@@ -44,7 +44,7 @@ class Skynet extends IPSModule {
 
     }
 
-    public function SendRequest($roomName, $value, $unit) {
+    public function SendRequest(string $roomName, int $value, string $unit) {
         $messageLanguage = $this->ReadPropertyString('message_language');
         $mistralModel = $this->ReadPropertyString('mistral_model');
         $url = $this->ReadPropertyString('url');
