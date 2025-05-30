@@ -2,7 +2,7 @@
 
 * **Letztes Update:** 30.05.2025
 
----
+## Allgemein
 * Mistral AI Integration um Empfehlungen wie z.B. optimale Lichtverhältnisse in einem Raum zu erlangen.
 * In der Variable "Message" die Empfehlung in natürlcher Sprache notiert.
 * In der Variable "Recommended Value", "Unit" und "Room" wird der Empfohlene Wert, bei einem empfohlenen Wertebereich ist es der Durchschnitt, und die dazugehörige Masseinheit sowie Raum notiert. Diese beiden. Diese Variablen können für Skripte oder Ablaufpläne verwendet werden.
