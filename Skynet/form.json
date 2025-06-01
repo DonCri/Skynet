@@ -17,7 +17,7 @@
             {"caption": "Italian", "value": "italian"},
             {"caption": "French", "value": "french"}
             ]},
-        {"type": "List","name": "devices", "caption": "Devices", "add": true, "delet": true, "rowCount": 10, 
+        {"type": "List","name": "devices", "caption": "Devices", "add": true, "delete": true, "rowCount": 10, 
         "columns": [{
             "caption": "Sensor ID",
             "name": "SensorID", 
