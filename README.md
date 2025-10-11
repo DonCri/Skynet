@@ -1,5 +1,5 @@
 # Skynet - Mistral AI für Symcon
-
+* Hallo
 * **Letztes Update:** 30.05.2025
 
 ## Allgemein
