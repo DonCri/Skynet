@@ -10,8 +10,6 @@ class Skynet extends IPSModule
         parent::Create();
 
         // Profile
-        SetValue(2222, 222);
-        $this->RegisterPropertyInteger('HALLO', 2);
 
         // variable
         $this->RegisterVariableBoolean('SKYNET_STATE', $this->Translate('State'), '', 0);
