@@ -12,7 +12,7 @@ class Skynet extends IPSModule
         // Profile
 
         GetValue(22222);
-
+        GetValue(22222);
         // variable
         $this->RegisterVariableBoolean('SKYNET_STATE', $this->Translate('State'), '', 0);
         $this->EnableAction('SKYNET_STATE');
