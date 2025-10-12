@@ -9,6 +9,7 @@ class Skynet extends IPSModule {
 
         // Profile
         
+        Teste Git Uplad
 
         // variable
         $this->RegisterVariableBoolean('SKYNET_STATE', $this->Translate('State'), '', 0);
