@@ -10,7 +10,7 @@ class Skynet extends IPSModule
         parent::Create();
 
         // Profile
-        //Test VSCode
+        
         // variable
         $this->RegisterVariableBoolean('SKYNET_STATE', $this->Translate('State'), '', 0);
         $this->EnableAction('SKYNET_STATE');
