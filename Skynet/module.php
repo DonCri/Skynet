@@ -10,7 +10,7 @@ class Skynet extends IPSModule
         parent::Create();
 
         // Profile
-        
+
         // variable
         $this->RegisterVariableBoolean('SKYNET_STATE', $this->Translate('State'), '', 0);
         $this->EnableAction('SKYNET_STATE');
@@ -42,6 +42,9 @@ class Skynet extends IPSModule
         AC_SetLoggingStatus($archiveID, $this->GetIDForIdent('MESSAGE'), true);
         AC_SetLoggingStatus($archiveID, $this->GetIDForIdent('UNIT'), true);
         AC_SetLoggingStatus($archiveID, $this->GetIDForIdent('UNIT'), true);
+
+        // Set Tile Visualization
+        $this->SetVisualizationType(1);
     }
 
     public function SendRequest(string $roomName, int $value, string $unit)
@@ -186,5 +189,16 @@ class Skynet extends IPSModule
                 }
             }
         }
+    }
+
+    public function GetVisualizationTile() {
+        $htmlFile = file_get_contents(__DIR__, '/module.php');
+        // We need to include the assets directly as there is no way to load anything afterwards yet
+        $assets = '<script>';
+        $assets .= 'window.assets = {};' . PHP_EOL;
+        $assets .= 'window.assets.logo_black = "data:image/png;base64,' . base64_encode(file_get_contents(__DIR__ . '/assets/Skynet_Terminator_logo_black.png')) . '";' . PHP_EOL;
+        $assets .= 'window.assets.logo_white = "data:image/png;base64,' . base64_encode(file_get_contents(__DIR__ . '/assets/Skynet_Terminator_logo_white.png')) . '";' . PHP_EOL;
+        $assets .= '</script>';
+        return $htmlFile . $assets;
     }
 }
