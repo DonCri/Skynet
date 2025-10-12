@@ -1,14 +1,17 @@
 <?php
 
 // Klassendefinition
-class Skynet extends IPSModule {
+class Skynet extends IPSModule
+{
     // Überschreibt die interne IPS_Create($id) Funktion
 
-    public function Create() {
+    public function Create()
+    {
         parent::Create();
 
         // Profile
-        
+
+        GetValue(22222);
 
         // variable
         $this->RegisterVariableBoolean('SKYNET_STATE', $this->Translate('State'), '', 0);
@@ -20,7 +23,7 @@ class Skynet extends IPSModule {
         IPS_SetHidden($this->GetIDForIdent('UNIT'), true);
         $this->RegisterVariableString('ROOM', $this->Translate('Room'), '', 4);
         IPS_SetHidden($this->GetIDForIdent('ROOM'), true);
-    
+
 
         // Property
         $this->RegisterPropertyString('mistral_api_key', '');
@@ -41,10 +44,10 @@ class Skynet extends IPSModule {
         AC_SetLoggingStatus($archiveID, $this->GetIDForIdent('MESSAGE'), true);
         AC_SetLoggingStatus($archiveID, $this->GetIDForIdent('UNIT'), true);
         AC_SetLoggingStatus($archiveID, $this->GetIDForIdent('UNIT'), true);
-
     }
 
-    public function SendRequest(string $roomName, int $value, string $unit) {
+    public function SendRequest(string $roomName, int $value, string $unit)
+    {
         $messageLanguage = $this->ReadPropertyString('message_language');
         $mistralModel = $this->ReadPropertyString('mistral_model');
         $url = $this->ReadPropertyString('url');
@@ -109,18 +112,18 @@ class Skynet extends IPSModule {
 
         $responseJSON = json_decode($response, true);
 
-        if($httpCode == 422) {
-            IPS_LogMessage("Skynet", "Error: " .$responseJSON['detail'][0]['msg']);
+        if ($httpCode == 422) {
+            IPS_LogMessage("Skynet", "Error: " . $responseJSON['detail'][0]['msg']);
             SetValue(19061, "Fehlerhafte Antwort");
         }
-        if($httpCode == 200) {
+        if ($httpCode == 200) {
             // Log Message
             IPS_LogMessage("Skynet", "successful: " . $response);
             // Entferne die Backticks (```json und ```)
             $content = trim($responseJSON['choices'][0]['message']['content'], '`');
             $jsonSTRING = str_replace(['```', 'json'], '', $content);
             $contentJSON = json_decode($jsonSTRING, true);
-            
+
             SetValue($this->GetIDForIdent('MESSAGE'), $contentJSON['advice']['text']);
             SetValue($this->GetIDForIdent('RECOMMENDED_VALUE'), $contentJSON['advice']['recommendedValue']);
             SetValue($this->GetIDForIdent('UNIT'), $contentJSON['advice']['unit']);;
@@ -128,14 +131,16 @@ class Skynet extends IPSModule {
         }
     }
 
-    public function RequestAction($Ident, $Value) {
+    public function RequestAction($Ident, $Value)
+    {
         $IdentID = $this->GetIDForIdent($Ident);
-        if($IdentID) {
+        if ($IdentID) {
             SetValue($IdentID, $Value);
         }
     }
 
-    public function ApplyChanges() {
+    public function ApplyChanges()
+    {
         parent::ApplyChanges();
 
         IPS_LogMessage('Skynet', "Selected model: " . $this->ReadPropertyString('mistral_model'));
@@ -143,45 +148,46 @@ class Skynet extends IPSModule {
         // Register variable as triggers
         $deviceListString = $this->ReadPropertyString('devices');
         $deviceListJSON = json_decode($deviceListString, true);
-        if(empty($deviceListJSON)) {
+        if (empty($deviceListJSON)) {
             IPS_LogMessage('Skynet', 'Device List is empty');
         } else {
-            foreach($deviceListJSON as $list) {
-            $id = $list['SensorID'];
-            IPS_LogMessage('Skynet', 'registered device ID ' . $id);
-            $this->RegisterMessage($id, 10603);
-        }
+            foreach ($deviceListJSON as $list) {
+                $id = $list['SensorID'];
+                IPS_LogMessage('Skynet', 'registered device ID ' . $id);
+                $this->RegisterMessage($id, 10603);
+            }
         }
     }
 
-    public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
+    public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
+    {
         $deviceListString = $this->ReadPropertyString('devices');
-        $deviceListJSON = json_decode($deviceListString, true);	
+        $deviceListJSON = json_decode($deviceListString, true);
 
         $skynetStat = $this->GetValue('SKYNET_STATE');
 
-        if($skynetStat) {
-            foreach($deviceListJSON as $content) {
-            if($SenderID == $content['SensorID']) {
-                if($Data[1] == 1) {
-                    $oldValue = $Data[2];
-                    $newValue = $Data[0];
-                    $valueDifferent = abs($newValue - $oldValue);
+        if ($skynetStat) {
+            foreach ($deviceListJSON as $content) {
+                if ($SenderID == $content['SensorID']) {
+                    if ($Data[1] == 1) {
+                        $oldValue = $Data[2];
+                        $newValue = $Data[0];
+                        $valueDifferent = abs($newValue - $oldValue);
 
-                    if($oldValue == 0) {
-                        $valueDifferentInPercent = $newValue;
-                    } else {
-                        $valueDifferentInPercent = ($valueDifferent / $oldValue) * 100;
-                    }
-                    if($valueDifferentInPercent >= $this->ReadPropertyInteger('triggerdifference')) {
-                        IPS_LogMessage("Skynet", "Message from SenderID ".$SenderID." - ".IPS_GetName(IPS_GetParent($SenderID)) ." - ".IPS_GetName($SenderID) ." with Message ".$Message."\r\n Data: ".print_r($Data, true));
-                        IPS_LogMessage('Skynet', 'different: ' . $valueDifferentInPercent);
-                        $this->SendRequest($content['Room'], GetValue($SenderID), $content['SensorType']);
+                        if ($oldValue == 0) {
+                            $valueDifferentInPercent = $newValue;
+                        } else {
+                            $valueDifferentInPercent = ($valueDifferent / $oldValue) * 100;
+                        }
+                        if ($valueDifferentInPercent >= $this->ReadPropertyInteger('triggerdifference')) {
+                            IPS_LogMessage("Skynet", "Message from SenderID " . $SenderID . " - " . IPS_GetName(IPS_GetParent($SenderID)) . " - " . IPS_GetName($SenderID) . " with Message " . $Message . "\r\n Data: " . print_r($Data, true));
+                            IPS_LogMessage('Skynet', 'different: ' . $valueDifferentInPercent);
+                            $this->SendRequest($content['Room'], GetValue($SenderID), $content['SensorType']);
                         }
                     }
                 }
             }
         }
     }
-
 }
+
