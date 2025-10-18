@@ -167,7 +167,7 @@ class Skynet extends IPSModule
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
         $deviceListString = $this->ReadPropertyString('devices');
         $deviceListJSON = json_decode($deviceListString, true);
-        $skynetStat = $this->GetValue($this->GetIDForIdent('SKYNET_STATE'));
+        $skynetStat = $this->GetValue('SKYNET_STATE');
 
         if ($skynetStat) {
             foreach ($deviceListJSON as $content) {
