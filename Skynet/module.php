@@ -124,7 +124,7 @@ class Skynet extends IPSModule
             $contentJSON = json_decode($jsonSTRING, true);
 
             SetValue($this->GetIDForIdent('MESSAGE'), $contentJSON['advice']['text']);
-            $this->UpdateVisualizationValue($this->UpdateValue($this->GetIDForIdent('MESSAGE')));
+            $this->UpdateVisualizationValue($this->UpdateValue('MESSAGE'));
             SetValue($this->GetIDForIdent('RECOMMENDED_VALUE'), $contentJSON['advice']['recommendedValue']);
             SetValue($this->GetIDForIdent('UNIT'), $contentJSON['advice']['unit']);;
             SetValue($this->GetIDForIdent('ROOM'), $roomName);
