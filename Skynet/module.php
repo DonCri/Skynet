@@ -134,9 +134,16 @@ class Skynet extends IPSModule
 
     public function RequestAction($Ident, $Value)
     {
-        $IdentID = $this->GetIDForIdent($Ident);
-        if ($IdentID) {
-            SetValue($IdentID, $Value);
+        //$IdentID = $this->GetIDForIdent($Ident);
+        switch ($Ident) {
+            case 'SKYNET_STATE':
+                $this->SetValue($Ident, $Value);
+            $this->UpdateVisualizationValue($this->UpdateValue($Ident));
+                break;
+
+            case 'UPDATE':
+                RequestAction($this->GetIDForIdent('SKYNET_STATE'), !$this->GetValue('SKYNET_STATE'));
+                break;
         }
     }
 
@@ -164,8 +171,9 @@ class Skynet extends IPSModule
     {
         $deviceListString = $this->ReadPropertyString('devices');
         $deviceListJSON = json_decode($deviceListString, true);
-
-        $skynetStat = $this->GetValue('SKYNET_STATE');
+        $ident = IPS_GetObject($SenderID)['ObjectIdent'];
+        $skynetStat = $this->GetValue($ident);
+        $this->UpdateVisualizationValue($this->UpdateValue($ident));
 
         if ($skynetStat) {
             foreach ($deviceListJSON as $content) {
@@ -191,14 +199,44 @@ class Skynet extends IPSModule
         }
     }
 
-    public function GetVisualizationTile() {
-        $htmlFile = file_get_contents(__DIR__, '/module.php');
+    public function GetVisualizationTile()
+    {
+        $initialHandling = [];
+        foreach(IPS_GetChildrenIDs($this->InstanceID) as $variableID) {
+            if(!IPS_VariableExists($variableID)) {
+                continue;
+            }
+            $ident = IPS_GetObject($variableID)['ObjectIdent'];
+            if(!$ident) {
+                continue;
+            }
+            $initialHandling[] = 'handleMessage(\'' . $this->UpdateValue($ident) . '\');';
+        }
+        
+        $messages = '<script>' . implode(' ', $initialHandling) . '</script>';
+        $htmlFile = file_get_contents(__DIR__ . '/module.html');
         // We need to include the assets directly as there is no way to load anything afterwards yet
         $assets = '<script>';
         $assets .= 'window.assets = {};' . PHP_EOL;
         $assets .= 'window.assets.logo_black = "data:image/png;base64,' . base64_encode(file_get_contents(__DIR__ . '/assets/Skynet_Terminator_logo_black.png')) . '";' . PHP_EOL;
         $assets .= 'window.assets.logo_white = "data:image/png;base64,' . base64_encode(file_get_contents(__DIR__ . '/assets/Skynet_Terminator_logo_white.png')) . '";' . PHP_EOL;
+        $assets .= 'window.assets.gif = "data:image/gif;base64,' . base64_encode(file_get_contents(__DIR__ . '/assets/giphy.gif')) . '";' . PHP_EOL;
         $assets .= '</script>';
-        return $htmlFile . $assets;
+        return $htmlFile . $assets . $messages;
+    }
+
+    private function UpdateValue($ident)
+    {
+        $variableID = $this->GetIDForIdent($ident);
+        $variableName = IPS_GetName($variableID);
+        $variableValue = $this->GetValue($ident);
+
+        $initialValue = json_encode([
+            'Ident' => $ident,
+            'Name' => $variableName,
+            'Value' => $variableValue
+        ]);
+
+        return $initialValue;
     }
 }
