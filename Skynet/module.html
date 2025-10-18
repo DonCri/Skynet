@@ -17,7 +17,7 @@
             width: 100px;
         }
 
-        .lichtstrahl {
+        .lightbeam {
             position: absolute;
             width: 10px;
             height: 20px;
@@ -69,9 +69,13 @@
 <body>
     <div class="container">
         <button onclick="requestAction('UPDATE', '')"><div class="item"><img id="logo"></div></button>
-        <div class="item" id="title"><h1>Skynet, your AI Assistant</h1></div>
+        <div>
+            <div class="item" id="title"><h1>Skynet, your AI Assistant</h1></div>
+            <div class="lightbeam" id="light"></div>
+        </div>
     </div>
-    <div class="lichtstrahl" id="light"></div>
+
+    
     <div class="container">
         <div><h3 id="messageName"></h3></div>
         <div id="aiMessage"></div>
