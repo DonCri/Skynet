@@ -11,28 +11,31 @@
             gap: 10px; /* Abstand zwischen den Elementen */
             }
 
+        #logo {
+            padding-top: 5px;
+            height: 60px; 
+            width: 100px;
+        }
+
         .lichtstrahl {
             position: absolute;
-            /*top: 50%; Zentriert vertikal */
-            /*transform: translateY(-50%);  Korrigiert die Position, da 'top: 50%' die Oberkante zentriert */
-            /*left: 0; */
             width: 10px;
             height: 20px;
-            background-color: rgba(200, 255, 0, 0.8);
+            background-color: rgba(255, 0, 0, 0.8);
             border-radius: 5px; /* Rundung für den Lichtstrahl selbst */
-            border-color: rgba(200, 255, 0, 0.8);
+            border-color: rgba(255, 0, 0, 0.8);
             animation: moveLight 2s linear infinite;
 
             /* Einseitiger Schweif: Nur nach rechts */
             box-shadow:
-                0px 0 15px 5px rgba(200, 255, 0, 0.7),
-                -10px 0 15px 5px rgba(200, 255, 0, 0.7),
-                -20px 0 20px 5px rgba(200, 255, 0, 0.6),
-                -30px 0 25px 5px rgba(200, 255, 0, 0.6),
-                -40px 0 30px 5px rgba(200, 255, 0, 0.6),
-                -50px 0 35px 5px rgba(200, 255, 0, 0.6),
-                -60px 0 40px 5px rgba(200, 255, 0, 0.6),
-                -70px 0 45px 5px rgba(200, 255, 0, 0.6);
+                0px 0 15px 5px rgba(255, 0, 0, 0.7),
+                -10px 0 15px 5px rgba(255, 0, 0, 0.7),
+                -20px 0 20px 5px rgba(255, 0, 0, 0.6),
+                -30px 0 25px 5px rgba(255, 0, 0, 0.6),
+                -40px 0 30px 5px rgba(255, 0, 0, 0.6),
+                -50px 0 35px 5px rgba(255, 0, 0, 0.6),
+                -60px 0 40px 5px rgba(255, 0, 0, 0.6),
+                -70px 0 45px 5px rgba(255, 0, 0, 0.6);
             }
 
         @keyframes moveLight {
@@ -52,28 +55,32 @@
             }
             }
 
-
+        #title {
+            padding-top: 0px;
+        }
 
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="item"><img id="logo" height="120px" width="200px"></div>
-        <div class="item"><h1>Skynet, your AI Assistant</h1></div>
+        <button onclick="requestAction('UPDATE', '')"><div class="item"><img id="logo"></div></button>
+        <div class="item" id="title"><h1>Skynet, your AI Assistant</h1></div>
     </div>
+    <div class="lichtstrahl" id="light"></div>
     <div class="container">
         <div><h3 id="messageName"></h3></div>
         <div id="aiMessage"></div>
     </div>
     
-        <div class="lichtstrahl"></div>
+        
     
     <span id="state"></span>
     <button onclick="requestAction('UPDATE', '')">STATE</button>
 
     <script type="text/javascript" charset="UTF-8">
         function handleMessage(message) {
-            document.getElementById("logo").src = window.assets.logo_white;
+
+            
             
             var data = JSON.parse(message);
             console.log(data);
@@ -82,8 +89,10 @@
                 case 'SKYNET_STATE':
                     if (data.Value == true) {
                         document.getElementById('state').textContent = "An";
+                        document.getElementById("logo").src = window.assets.logo_green_white;
                     } else {
                         document.getElementById('state').textContent = "Aus";
+                        document.getElementById("logo").src = window.assets.logo_red_white;
                     }
                     break;
 

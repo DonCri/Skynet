@@ -218,8 +218,9 @@ class Skynet extends IPSModule
         // We need to include the assets directly as there is no way to load anything afterwards yet
         $assets = '<script>';
         $assets .= 'window.assets = {};' . PHP_EOL;
-        $assets .= 'window.assets.logo_black = "data:image/png;base64,' . base64_encode(file_get_contents(__DIR__ . '/assets/Skynet_Terminator_logo_black.png')) . '";' . PHP_EOL;
-        $assets .= 'window.assets.logo_white = "data:image/png;base64,' . base64_encode(file_get_contents(__DIR__ . '/assets/Skynet_Terminator_logo_white.png')) . '";' . PHP_EOL;
+        $assets .= 'window.assets.logo_red_black = "data:image/png;base64,' . base64_encode(file_get_contents(__DIR__ . '/assets/Skynet_Terminator_logo_red_black.png')) . '";' . PHP_EOL;
+        $assets .= 'window.assets.logo_red_white = "data:image/png;base64,' . base64_encode(file_get_contents(__DIR__ . '/assets/Skynet_Terminator_logo_red_white.png')) . '";' . PHP_EOL;
+        $assets .= 'window.assets.logo_green_white = "data:image/png;base64,' . base64_encode(file_get_contents(__DIR__ . '/assets/Skynet_Terminator_logo_green_white.png')) . '";' . PHP_EOL;
         $assets .= 'window.assets.gif = "data:image/gif;base64,' . base64_encode(file_get_contents(__DIR__ . '/assets/giphy.gif')) . '";' . PHP_EOL;
         $assets .= '</script>';
         return $htmlFile . $assets . $messages;
