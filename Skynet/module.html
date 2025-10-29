@@ -6,14 +6,17 @@
         body {
             background-color: transparent;
         }
+
         .container {
-            display: flex; /* Aktiviert Flexbox */
-            gap: 10px; /* Abstand zwischen den Elementen */
-            }
+            display: flex;
+            /* Aktiviert Flexbox */
+            gap: 10px;
+            /* Abstand zwischen den Elementen */
+        }
 
         #logo {
             padding-top: 5px;
-            height: 60px; 
+            height: 60px;
             width: 100px;
         }
 
@@ -22,11 +25,10 @@
             width: 10px;
             height: 20px;
             background-color: rgba(255, 0, 0, 0.8);
-            border-radius: 5px; /* Rundung für den Lichtstrahl selbst */
+            border-radius: 5px;
             border-color: rgba(255, 0, 0, 0.8);
             animation: moveLight 2s linear infinite;
 
-            /* Einseitiger Schweif: Nur nach rechts */
             box-shadow:
                 0px 0 15px 5px rgba(255, 0, 0, 0.7),
                 -10px 0 15px 5px rgba(255, 0, 0, 0.7),
@@ -36,24 +38,27 @@
                 -50px 0 35px 5px rgba(255, 0, 0, 0.6),
                 -60px 0 40px 5px rgba(255, 0, 0, 0.6),
                 -70px 0 45px 5px rgba(255, 0, 0, 0.6);
-            }
+        }
 
         @keyframes moveLight {
             0% {
-                left: -10px;
+                left: 100px;
                 opacity: 0;
             }
+
             5% {
                 opacity: 1;
             }
+
             95% {
                 opacity: 1;
             }
+
             100% {
                 left: 100%;
                 opacity: 0;
             }
-            }
+        }
 
         #title {
             padding-top: 0px;
@@ -63,26 +68,31 @@
             border: none;
             background-color: transparent;
         }
-
     </style>
 </head>
+
 <body>
     <div class="container">
-        <button onclick="requestAction('UPDATE', '')"><div class="item"><img id="logo"></div></button>
+        <button onclick="requestAction('UPDATE', '')">
+            <div class="item"><img id="logo"></div>
+        </button>
         <div class="item">
-            <div id="title"><h1>Skynet, your AI Assistant</h1></div>
-            <div class="lightbeam" id="light"></div>
+            <div id="title">
+                <h1>Skynet, your AI Assistant</h1>
+            </div>
+            <!-- <div class="lightbeam" id="light"></div> -->
         </div>
     </div>
 
-    
     <div class="container">
-        <div><h3 id="messageName"></h3></div>
+        <div>
+            <h3 id="messageName"></h3>
+        </div>
         <div id="aiMessage"></div>
     </div>
-    
-        
-    
+
+
+
     <span id="state"></span>
     <button onclick="requestAction('UPDATE', '')">STATE</button>
 
@@ -91,7 +101,7 @@
 
             var data = JSON.parse(message);
             console.log(data);
-
+            
             switch (data.Ident) {
                 case 'SKYNET_STATE':
                     if (data.Value == true) {
@@ -107,7 +117,7 @@
                     document.getElementById('aiMessage').textContent = data.Value;
                     document.getElementById('messageName').textContent = data.Name;
                     break;
-            
+
                 default:
                     break;
             }
