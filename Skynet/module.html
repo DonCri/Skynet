@@ -100,10 +100,8 @@
             switch (data.Ident) {
                 case 'SKYNET_STATE':
                     if (data.Value == true) {
-                        document.getElementById('state').textContent = "An";
                         document.getElementById("logo").src = window.assets.logo_green_white;
                     } else {
-                        document.getElementById('state').textContent = "Aus";
                         document.getElementById("logo").src = window.assets.logo_red_white;
                     }
                     break;

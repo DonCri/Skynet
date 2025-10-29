@@ -42,6 +42,9 @@ class Skynet extends IPSModule
         AC_SetLoggingStatus($archiveID, $this->GetIDForIdent('UNIT'), true);
         AC_SetLoggingStatus($archiveID, $this->GetIDForIdent('UNIT'), true);
 
+        // Register Module variables
+        $this->RegisterMessage($this->GetIDForIdent('MESSAGE'), 10603);
+
         // Set Tile Visualization
         $this->SetVisualizationType(1);
     }
