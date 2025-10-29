@@ -222,13 +222,16 @@ class Skynet extends IPSModule
 
     private function UpdateValue($ident) {
         $variableID = $this->GetIDForIdent($ident);
+        $variableInfo = IPS_GetVariable($variableID);
         $variableName = IPS_GetName($variableID);
         $variableValue = $this->GetValue($ident);
-
+        $updateTimestamp = $variableInfo['VariableUpdated'];
+        
         $initialValue = json_encode([
             'Ident' => $ident,
             'Name' => $variableName,
-            'Value' => $variableValue
+            'Value' => $variableValue,
+            'Timestamp' => $updateTimestamp
         ]);
 
         return $initialValue;
