@@ -5,7 +5,8 @@ class Skynet extends IPSModule
 {
     // Überschreibt die interne IPS_Create($id) Funktion
 
-    public function Create() {
+    public function Create()
+    {
         parent::Create();
 
         // Profile
@@ -49,7 +50,8 @@ class Skynet extends IPSModule
         $this->SetVisualizationType(1);
     }
 
-    public function SendRequest(string $roomName, int $value, string $unit) {
+    public function SendRequest(string $roomName, int $value, string $unit)
+    {
         $messageLanguage = $this->ReadPropertyString('message_language');
         $mistralModel = $this->ReadPropertyString('mistral_model');
         $url = $this->ReadPropertyString('url');
@@ -134,7 +136,8 @@ class Skynet extends IPSModule
         }
     }
 
-    public function RequestAction($Ident, $Value) {
+    public function RequestAction($Ident, $Value)
+    {
         //$IdentID = $this->GetIDForIdent($Ident);
         switch ($Ident) {
             case 'SKYNET_STATE':
@@ -148,7 +151,8 @@ class Skynet extends IPSModule
         }
     }
 
-    public function ApplyChanges() {
+    public function ApplyChanges()
+    {
         parent::ApplyChanges();
 
         IPS_LogMessage('Skynet', "Selected model: " . $this->ReadPropertyString('mistral_model'));
@@ -167,7 +171,8 @@ class Skynet extends IPSModule
         }
     }
 
-    public function MessageSink($TimeStamp, $SenderID, $Message, $Data) {
+    public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
+    {
         $deviceListString = $this->ReadPropertyString('devices');
         $deviceListJSON = json_decode($deviceListString, true);
         $skynetStat = $this->GetValue('SKYNET_STATE');
@@ -196,19 +201,20 @@ class Skynet extends IPSModule
         }
     }
 
-    public function GetVisualizationTile() {
+    public function GetVisualizationTile()
+    {
         $initialHandling = [];
-        foreach(IPS_GetChildrenIDs($this->InstanceID) as $variableID) {
-            if(!IPS_VariableExists($variableID)) {
+        foreach (IPS_GetChildrenIDs($this->InstanceID) as $variableID) {
+            if (!IPS_VariableExists($variableID)) {
                 continue;
             }
             $ident = IPS_GetObject($variableID)['ObjectIdent'];
-            if(!$ident) {
+            if (!$ident) {
                 continue;
             }
             $initialHandling[] = 'handleMessage(\'' . $this->UpdateValue($ident) . '\');';
         }
-        
+
         $messages = '<script>' . implode(' ', $initialHandling) . '</script>';
         $htmlFile = file_get_contents(__DIR__ . '/module.html');
         // We need to include the assets directly as there is no way to load anything afterwards yet
@@ -220,13 +226,14 @@ class Skynet extends IPSModule
         return $htmlFile . $assets . $messages;
     }
 
-    private function UpdateValue($ident) {
+    private function UpdateValue($ident)
+    {
         $variableID = $this->GetIDForIdent($ident);
         $variableInfo = IPS_GetVariable($variableID);
         $variableName = IPS_GetName($variableID);
         $variableValue = $this->GetValue($ident);
         $updateTimestamp = $variableInfo['VariableUpdated'];
-        
+
         $initialValue = json_encode([
             'Ident' => $ident,
             'Name' => $variableName,
