@@ -1,126 +1,126 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Skynet</title>
-    <style>
-        body {
-            background-color: transparent;
-        }
+  <title>Skynet</title>
+  <style>
+    body {
+      background-color: transparent;
+    }
 
-        .container {
-            display: flex;
-            /* Aktiviert Flexbox */
-            gap: 10px;
-            /* Abstand zwischen den Elementen */
-        }
+    .container {
+      display: flex;
+      /* Aktiviert Flexbox */
+      gap: 10px;
+      /* Abstand zwischen den Elementen */
+    }
 
-        #logo {
-            padding-top: 5px;
-            height: 60px;
-            width: 100px;
-        }
+    #logo {
+      padding-top: 5px;
+      height: 60px;
+      width: 100px;
+    }
 
-        .lightbeam {
-            position: absolute;
-            width: 10px;
-            height: 20px;
-            background-color: rgba(255, 0, 0, 0.8);
-            border-radius: 5px;
-            border-color: rgba(255, 0, 0, 0.8);
-            animation: moveLight 2s linear infinite;
+    .lightbeam {
+      position: absolute;
+      width: 10px;
+      height: 20px;
+      background-color: rgba(255, 0, 0, 0.8);
+      border-radius: 5px;
+      border-color: rgba(255, 0, 0, 0.8);
+      animation: moveLight 2s linear infinite;
 
-            box-shadow:
-                0px 0 15px 5px rgba(255, 0, 0, 0.7),
-                -10px 0 15px 5px rgba(255, 0, 0, 0.7),
-                -20px 0 20px 5px rgba(255, 0, 0, 0.6),
-                -30px 0 25px 5px rgba(255, 0, 0, 0.6),
-                -40px 0 30px 5px rgba(255, 0, 0, 0.6),
-                -50px 0 35px 5px rgba(255, 0, 0, 0.6),
-                -60px 0 40px 5px rgba(255, 0, 0, 0.6),
-                -70px 0 45px 5px rgba(255, 0, 0, 0.6);
-        }
+      box-shadow:
+        0px 0 15px 5px rgba(255, 0, 0, 0.7),
+        -10px 0 15px 5px rgba(255, 0, 0, 0.7),
+        -20px 0 20px 5px rgba(255, 0, 0, 0.6),
+        -30px 0 25px 5px rgba(255, 0, 0, 0.6),
+        -40px 0 30px 5px rgba(255, 0, 0, 0.6),
+        -50px 0 35px 5px rgba(255, 0, 0, 0.6),
+        -60px 0 40px 5px rgba(255, 0, 0, 0.6),
+        -70px 0 45px 5px rgba(255, 0, 0, 0.6);
+    }
 
-        @keyframes moveLight {
-            0% {
-                left: 100px;
-                opacity: 0;
-            }
+    @keyframes moveLight {
+      0% {
+        left: 100px;
+        opacity: 0;
+      }
 
-            5% {
-                opacity: 1;
-            }
+      5% {
+        opacity: 1;
+      }
 
-            95% {
-                opacity: 1;
-            }
+      95% {
+        opacity: 1;
+      }
 
-            100% {
-                left: 100%;
-                opacity: 0;
-            }
-        }
+      100% {
+        left: 100%;
+        opacity: 0;
+      }
+    }
 
-        #title {
-            padding-top: 0px;
-        }
+    #title {
+      padding-top: 0px;
+    }
 
-        button {
-            border: none;
-            background-color: transparent;
-        }
-    </style>
+    button {
+      border: none;
+      background-color: transparent;
+    }
+  </style>
 
 </head>
 
 <body>
-    <div class="container">
-        <button onclick="requestAction('UPDATE', '')">
-            <div class="item"><img id="logo"></div>
-        </button>
-        <div class="item">
-            <div id="title">
-                <h1>Skynet, your AI Assistant</h1>
-            </div>
-        </div>
+  <div class="container">
+    <button onclick="requestAction('UPDATE', '')">
+      <div class="item"><img id="logo"></div>
+    </button>
+    <div class="item">
+      <div id="title">
+        <h1>Skynet, your AI Assistant</h1>
+      </div>
     </div>
+  </div>
 
+  <div>
     <div>
-        <div>
-            <h2 id="messageName"></h2>
-        </div>
-        <div>
-            <h3 id="messageTimestamp"></h3>
-        </div>
-        <div id="aiMessage"></div>
+      <h2 id="messageName"></h2>
     </div>
+    <div>
+      <h3 id="messageTimestamp"></h3>
+    </div>
+    <div id="aiMessage"></div>
+  </div>
 
-    <script type="text/javascript">
-        function handleMessage(message) {
+  <script type="text/javascript">
+    function handleMessage(message) {
 
-            var data = JSON.parse(message);
-            console.log(data);
+      var data = JSON.parse(message);
+      console.log(data);
 
-            var date = new Date(data.Timestamp * 1000);
-            var formattedTimestamp = date.toLocaleString('de-CH');
+      var date = new Date(data.Timestamp * 1000);
+      var formattedTimestamp = date.toLocaleString('de-CH');
 
-            switch (data.Ident) {
-                case 'SKYNET_STATE':
-                    if (data.Value == true) {
-                        document.getElementById("logo").src = window.assets.logo_green;
-                    } else {
-                        document.getElementById("logo").src = window.assets.logo_red;
-                    }
-                    break;
+      switch (data.Ident) {
+        case 'SKYNET_STATE':
+          if (data.Value == true) {
+            document.getElementById("logo").src = window.assets.logo_green;
+          } else {
+            document.getElementById("logo").src = window.assets.logo_red;
+          }
+          break;
 
-                case 'MESSAGE':
-                    document.getElementById('messageName').textContent = data.Name;
-                    document.getElementById('aiMessage').textContent = data.Value;
-                    document.getElementById('messageTimestamp').textContent = formattedTimestamp;
-                    break;
+        case 'MESSAGE':
+          document.getElementById('messageName').textContent = data.Name;
+          document.getElementById('aiMessage').textContent = data.Value;
+          document.getElementById('messageTimestamp').textContent = formattedTimestamp;
+          break;
 
-                default:
-                    break;
-            }
-        }
-    </script>
+        default:
+          break;
+      }
+    }
+  </script>
 </body>
